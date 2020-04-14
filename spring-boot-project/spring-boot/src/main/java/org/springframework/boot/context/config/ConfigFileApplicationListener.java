@@ -170,6 +170,9 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 	}
 
 	private void onApplicationEnvironmentPreparedEvent(ApplicationEnvironmentPreparedEvent event) {
+		// 加载配置在spring.factories中的EEnvironmentPostProcessor,共有三个:org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor 负责解析CloudFoundry环境下的配置
+		//org.springframework.boot.env.SpringApplicationJsonEnvironmentPostProcessor负责解析spring.application.json属性配置的json格式的属性
+		//org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor
 		List<EnvironmentPostProcessor> postProcessors = loadPostProcessors();
 		postProcessors.add(this);
 		AnnotationAwareOrderComparator.sort(postProcessors);

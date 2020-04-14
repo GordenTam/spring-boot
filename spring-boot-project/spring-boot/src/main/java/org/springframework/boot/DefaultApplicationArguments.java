@@ -33,6 +33,7 @@ import org.springframework.util.Assert;
  */
 public class DefaultApplicationArguments implements ApplicationArguments {
 
+	//命令行属性源头，通过SimpleCommandLineArgsParser解析，必须为--***=**的格式
 	private final Source source;
 
 	private final String[] args;

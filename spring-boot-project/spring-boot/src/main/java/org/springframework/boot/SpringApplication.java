@@ -294,14 +294,17 @@ public class SpringApplication {
 	 * @return a running {@link ApplicationContext}
 	 */
 	public ConfigurableApplicationContext run(String... args) {
+		// 计时器，计算spring boot上下文启动时间
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		configureHeadlessProperty();
+		// 实例化监听器,实例化监听器，负责监听spring boot启动的各个事件
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
+			// 命令行参数
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
 			// 准备环境
 			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
@@ -341,6 +344,7 @@ public class SpringApplication {
 		// Create and configure the environment
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
+		// 环境准备完成事件，会被ConfigFileApplicationListener监听到并处理
 		listeners.environmentPrepared(environment);
 		bindToSpringApplication(environment);
 		if (!this.isCustomEnvironment) {
@@ -374,6 +378,7 @@ public class SpringApplication {
 		}
 		// Add boot specific singleton beans
 		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+		//注册applicationArguments单例bean
 		beanFactory.registerSingleton("springApplicationArguments", applicationArguments);
 		if (printedBanner != null) {
 			beanFactory.registerSingleton("springBootBanner", printedBanner);
